@@ -1,68 +1,58 @@
+import java.time.LocalDate;
+
 public class Main {
     public static void main(String[] args) {
 
-        Curso inglesBasico = new Curso("Inglês", "Básico");
-        Horario horario1 = new Horario("Segunda-feira", "10:00");
-        Professor profAna = new Professor("Ana Souza", "ana@worldtalk.com");
+        // Criando níveis
+        Nivel iniciante = new Nivel("Iniciante");
+        Nivel avancado = new Nivel("Avançado");
 
-        Turma turmaA = new Turma(
-                "ING-BAS-01",
-                inglesBasico,
-                horario1,
-                profAna,
-                3
-        );
+        // Criando cursos
+        Curso cursoJava = new Curso("Java");
+        Curso cursoPython = new Curso("Python");
 
-        Aluno a1 = new Aluno("Carlos", "carlos@email.com", false);
-        Aluno a2 = new Aluno("Marina", "marina@email.com", false);
-        Aluno a3 = new Aluno("João", "joao@email.com", false);
+        // Criando alunos
+        Aluno aluno1 = new Aluno("Samuel", "samuel@email.com", true);
+        Aluno aluno2 = new Aluno("Marina");
+        Aluno aluno3 = new Aluno("Carlos", "carlos@email.com", false);
 
-        Aluno vip1 = new Aluno("Amanda VIP", "amanda@email.com", true);
-        Aluno vip2 = new Aluno("Lucas VIP", "lucas@email.com", true);
+        // Criar professor
+        Professor professor = new Professor("Roberto", "roberto@escola.com");
 
-        System.out.println("\n--- ADICIONANDO ALUNOS NORMAIS ---");
-        turmaA.adicionarAluno(a1);
-        turmaA.adicionarAluno(a2);
-        turmaA.adicionarAluno(a3);
+        // Criar turma (limite 2)
+        Horario horario = new Horario("Segunda", "14:00");
+        Turma turma = new Turma("T01", cursoJava, horario, professor, 2);
 
-        System.out.println("\n--- LISTA DE ALUNOS DA TURMA ---");
-        for (Aluno aluno : turmaA.getAlunos()) {
-            System.out.println("- " + aluno.getNome() + (aluno.isVip() ? " (VIP)" : ""));
+        // Registrar pagamentos
+        aluno1.registrarPagamento(new Pagamento(300.0, LocalDate.now()));
+        aluno2.registrarPagamento(new Pagamento(250.0, LocalDate.now()));
+
+        // Concluir cursos
+        aluno1.concluirCurso(cursoJava, iniciante, 9.2);
+        aluno1.concluirCurso(cursoPython, avancado, 8.5);
+        aluno2.concluirCurso(cursoJava, iniciante, 7.8);
+
+        // Teste da geração de relatório
+        System.out.println("===== RELATÓRIO DO ALUNO 1 =====");
+        System.out.println(FormatadorHistorico.gerarRelatorio(aluno1));
+
+        System.out.println("===== RELATÓRIO DO ALUNO 2 =====");
+        System.out.println(FormatadorHistorico.gerarRelatorio(aluno2));
+
+        // Testes da turma
+        System.out.println("\n===== TESTE DA TURMA =====");
+        turma.adicionarAluno(aluno1); // ok
+        turma.adicionarAluno(aluno2); // ok (turma cheia)
+        turma.adicionarAluno(aluno3); // não vip → recusado
+
+        // adicionando VIP para testar substituição
+        Aluno alunoVipExtra = new Aluno("Leonardo", "leo@email.com", true);
+
+        turma.adicionarAluno(alunoVipExtra); // deve substituir aluno não vip
+
+        System.out.println("\nAlunos finais da turma:");
+        for (Aluno a : turma.getAlunos()) {
+            System.out.println("- " + a.getNome() + (a.isVip() ? " (VIP)" : ""));
         }
-
-        System.out.println("\n--- TENTANDO ADICIONAR MAIS UM ALUNO NORMAL (deve falhar) ---");
-        Aluno a4 = new Aluno("Pedro", "pedro@email.com", false);
-        turmaA.adicionarAluno(a4);  // falha esperada
-
-        System.out.println("\n--- LISTA DE ALUNOS DA TURMA ---");
-        for (Aluno aluno : turmaA.getAlunos()) {
-            System.out.println("- " + aluno.getNome() + (aluno.isVip() ? " (VIP)" : ""));
-        }
-
-        System.out.println("\n--- TENTANDO ADICIONAR ALUNO VIP (deve substituir alguém) ---");
-        turmaA.adicionarAluno(vip1);  // substitui alguém não VIP
-
-        System.out.println("\n--- LISTA DE ALUNOS DA TURMA ---");
-        for (Aluno aluno : turmaA.getAlunos()) {
-            System.out.println("- " + aluno.getNome() + (aluno.isVip() ? " (VIP)" : ""));
-        }
-
-        System.out.println("\n--- REMOVENDO UM ALUNO ---");
-        turmaA.removerAluno(a2);
-
-        System.out.println("\n--- LISTA DE ALUNOS DA TURMA ---");
-        for (Aluno aluno : turmaA.getAlunos()) {
-            System.out.println("- " + aluno.getNome() + (aluno.isVip() ? " (VIP)" : ""));
-        }
-
-        System.out.println("\n--- ADICIONANDO OUTRO VIP APÓS REMOÇÃO ---");
-        turmaA.adicionarAluno(vip2);
-
-        System.out.println("\n--- LISTA FINAL ATUALIZADA ---");
-        for (Aluno aluno : turmaA.getAlunos()) {
-            System.out.println("- " + aluno.getNome() + (aluno.isVip() ? " (VIP)" : ""));
-        }
-
-        System.out.println("\n--- FIM DO TESTE ---");
     }
 }

@@ -5,5 +5,12 @@ public class Nivel {
         this.descricao = descricao;
     }
 
-    public String getDescricao() { return descricao; }
+    public String getDescricao() { 
+        return descricao; 
+    }
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
 }
