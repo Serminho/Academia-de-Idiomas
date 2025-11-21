@@ -7,6 +7,12 @@ public abstract class Pessoa {
         this.email = email;
     }
 
+    // Construtor alternativo (sem e-mail)
+    public Pessoa(String nome) {
+        this.nome = nome;
+        this.email = "";
+    }
+
     public String getNome() {
         return nome;
     }
