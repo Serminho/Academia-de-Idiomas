@@ -30,7 +30,6 @@ public class Curso {
     public String getNome() {
         return nome;
     }
-<<<<<<< HEAD
 
     public Professor getProfessor() {
         return professor;
@@ -57,9 +56,3 @@ public class Curso {
         return nome + " - " + idioma + " (" + getNivel() + ") - Prof. " + professor.getNome() + " - R$ " + preco;
     }
 }
-=======
-    public Professor getProfessor() {
-        return professor;
-    }
-}
->>>>>>> 1760ac07bd7074e4d17480c58ac6994c589e49b9
