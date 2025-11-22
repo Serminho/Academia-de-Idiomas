@@ -1,6 +1,6 @@
 public class TempoRestante {
-    private long dias;
-    private long horas;
+    private final long dias;
+    private final long horas;
 
     public TempoRestante(long dias, long horas) {
         this.dias = dias;

@@ -1,13 +1,13 @@
 import java.time.LocalDateTime;
 
 public class Agendamento {
-    private String id;
-    private Aluno aluno;
-    private Curso curso;
-    private Professor professor;
-    private LocalDateTime dataHora;
+    private final String id;
+    private final Aluno aluno;
+    private final Curso curso;
+    private final Professor professor;
+    private final LocalDateTime dataHora;
     private String status;
-    private double valor;
+    private final double valor;
 
     public Agendamento(Aluno aluno, Curso curso, Professor professor,
                        LocalDateTime dataHora, double valor) {

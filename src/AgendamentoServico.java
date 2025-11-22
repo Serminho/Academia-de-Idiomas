@@ -3,8 +3,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class AgendamentoServico {
-    private Map<String, Agendamento> agendamentos = new HashMap<>();
-    private List<Curso> cursosDisponiveis;
+    private final Map<String, Agendamento> agendamentos = new HashMap<>();
+    private final List<Curso> cursosDisponiveis;
 
     public AgendamentoServico(List<Curso> cursosDisponiveis) {
         this.cursosDisponiveis = cursosDisponiveis != null ? cursosDisponiveis : new ArrayList<>();
@@ -15,6 +15,7 @@ public class AgendamentoServico {
         if (curso == null) throw new IllegalArgumentException("Curso inválido");
         if (professor == null) throw new IllegalArgumentException("Professor inválido");
         if (!aluno.isVip()) throw new IllegalArgumentException("Somente alunos VIP podem agendar aulas particulares.");
+        if (dataHora == null) throw new IllegalArgumentException("Data/hora inválida");
         if (!validarDiaAula(dataHora)) {
             throw new IllegalArgumentException("Aulas só acontecem às segundas, quartas e sextas");
         }
@@ -28,7 +29,7 @@ public class AgendamentoServico {
         return agendamento;
     }
 
-    public ResultadoCancelamento cancelarAgendamento(String agendamentoId) {
+        public ResultadoCancelamento cancelarAgendamento(String agendamentoId) {
         Agendamento agendamento = agendamentos.get(agendamentoId);
         if (agendamento == null) {
             throw new IllegalArgumentException("Agendamento não encontrado");
@@ -64,8 +65,8 @@ public class AgendamentoServico {
     private boolean validarDiaAula(LocalDateTime dataHora) {
         DayOfWeek diaSemana = dataHora.getDayOfWeek();
         return diaSemana == DayOfWeek.MONDAY ||
-                diaSemana == DayOfWeek.WEDNESDAY ||
-                diaSemana == DayOfWeek.FRIDAY;
+               diaSemana == DayOfWeek.WEDNESDAY ||
+               diaSemana == DayOfWeek.FRIDAY;
     }
 
     public List<Curso> getCursosDisponiveis() {

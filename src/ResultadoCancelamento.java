@@ -1,7 +1,7 @@
 public class ResultadoCancelamento {
-    private Agendamento agendamento;
-    private double multa;
-    private long horasRestantes;
+    private final Agendamento agendamento;
+    private final double multa;
+    private final long horasRestantes;
 
     public ResultadoCancelamento(Agendamento agendamento, double multa, long horasRestantes) {
         this.agendamento = agendamento;
