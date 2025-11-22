@@ -3,7 +3,7 @@ import java.util.List;
 
 public class CadastroCursos {
     private List<Curso> cursos;
-    private List<String> niveis; // Mudou para List<String>
+    private List<String> niveis; 
 
     public CadastroCursos() {
         this.cursos = new ArrayList<>();
