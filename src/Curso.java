@@ -30,29 +30,7 @@ public class Curso {
     public String getNome() {
         return nome;
     }
-
     public Professor getProfessor() {
         return professor;
-    }
-
-    public String getIdioma() {
-        return idioma;
-    }
-
-    public String getNivel() {
-        return niveis.isEmpty() ? "" : niveis.get(0);
-    }
-
-    public List<String> getNiveis() {
-        return new ArrayList<>(niveis);
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    @Override
-    public String toString() {
-        return nome + " - " + idioma + " (" + getNivel() + ") - Prof. " + professor.getNome() + " - R$ " + preco;
     }
 }
