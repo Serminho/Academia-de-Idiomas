@@ -12,7 +12,7 @@ public class Progresso {
         this.nivelAtual = nivelInicial;
         this.nivelAnterior = nivelInicial;
         this.aulasConcluidas = 0;
-        this.totalAulas = 20; // Padrão de 20 aulas por nível
+        this.totalAulas = 20; // Padrão
     }
 
     public Progresso(Aluno aluno, Curso curso, String nivelInicial, int totalAulas) {
@@ -24,7 +24,6 @@ public class Progresso {
         this.totalAulas = totalAulas;
     }
 
-
     public Aluno getAluno() { return aluno; }
     public Curso getCurso() { return curso; }
     public String getNivelAtual() { return nivelAtual; }
@@ -32,11 +31,8 @@ public class Progresso {
     public int getAulasConcluidas() { return aulasConcluidas; }
     public int getTotalAulas() { return totalAulas; }
 
-    // Métodos de progresso
     public void concluirAula() {
-        if (aulasConcluidas < totalAulas) {
-            aulasConcluidas++;
-        }
+        if (aulasConcluidas < totalAulas) aulasConcluidas++;
     }
 
     public void avancarNivel() {
@@ -47,21 +43,20 @@ public class Progresso {
                 case "Intermediário" -> nivelAtual = "Avançado";
                 case "Avançado" -> nivelAtual = "Concluído";
             }
-            aulasConcluidas = 0; // Reinicia para o próximo nível
+            aulasConcluidas = 0;
         }
     }
 
-    // Métodos de consulta
     public double getPorcentagemConclusao() {
         return (aulasConcluidas * 100.0) / totalAulas;
     }
 
     public boolean isCursoConcluido() {
-        return nivelAtual.equals("Concluído");
+        return "Concluído".equals(nivelAtual);
     }
 
     public boolean podeAvancarNivel() {
-        return aulasConcluidas >= totalAulas && !nivelAtual.equals("Concluído");
+        return aulasConcluidas >= totalAulas && !isCursoConcluido();
     }
 
     public int getAulasRestantes() {
@@ -70,8 +65,7 @@ public class Progresso {
 
     @Override
     public String toString() {
-        return String.format(
-                "%s - %s (%s) - %d/%d aulas (%.1f%%)",
+        return String.format("%s - %s (%s) - %d/%d aulas (%.1f%%)",
                 aluno.getNome(),
                 curso.getNome(),
                 nivelAtual,

@@ -9,7 +9,6 @@ public class ResultadoCancelamento {
         this.horasRestantes = horasRestantes;
     }
 
-    // Getters
     public Agendamento getAgendamento() {
         return agendamento;
     }

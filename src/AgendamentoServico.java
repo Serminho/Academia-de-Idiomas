@@ -7,22 +7,24 @@ public class AgendamentoServico {
     private List<Curso> cursosDisponiveis;
 
     public AgendamentoServico(List<Curso> cursosDisponiveis) {
-        this.cursosDisponiveis = cursosDisponiveis;
+        this.cursosDisponiveis = cursosDisponiveis != null ? cursosDisponiveis : new ArrayList<>();
     }
 
-    public Agendamento criarAgendamento(Aluno aluno, Curso curso, LocalDateTime dataHora) {
+    public Agendamento criarAgendamento(Aluno aluno, Curso curso, Professor professor, LocalDateTime dataHora) {
+        if (aluno == null) throw new IllegalArgumentException("Aluno inválido");
+        if (curso == null) throw new IllegalArgumentException("Curso inválido");
+        if (professor == null) throw new IllegalArgumentException("Professor inválido");
+        if (!aluno.isVip()) throw new IllegalArgumentException("Somente alunos VIP podem agendar aulas particulares.");
         if (!validarDiaAula(dataHora)) {
             throw new IllegalArgumentException("Aulas só acontecem às segundas, quartas e sextas");
         }
-
         if (dataHora.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Não é possível agendar para datas passadas");
         }
 
         double valor = 10000.0; // Valor padrão
-        Agendamento agendamento = new Agendamento(aluno, curso, curso.getProfessor(), dataHora, valor);
+        Agendamento agendamento = new Agendamento(aluno, curso, professor, dataHora, valor);
         agendamentos.put(agendamento.getId(), agendamento);
-
         return agendamento;
     }
 
@@ -38,10 +40,11 @@ public class AgendamentoServico {
 
         if (horasRestantes < 24) {
             multa = agendamento.getValor() * 0.5;
+            Pagamento p = new Pagamento(multa, LocalDate.now());
+            agendamento.getAluno().registrarPagamento(p);
         }
 
         agendamento.setStatus("CANCELADO");
-
         return new ResultadoCancelamento(agendamento, multa, horasRestantes);
     }
 
@@ -71,5 +74,9 @@ public class AgendamentoServico {
 
     public Agendamento getAgendamento(String id) {
         return agendamentos.get(id);
+    }
+
+    public List<Agendamento> listarTodos() {
+        return new ArrayList<>(agendamentos.values());
     }
 }
