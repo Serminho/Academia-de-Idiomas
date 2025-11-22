@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MainBiblioteca {
@@ -41,7 +40,8 @@ public class MainBiblioteca {
                     String resp = sc.nextLine().trim();
                     boolean exclusivoVip = resp.equalsIgnoreCase("s") || resp.equalsIgnoreCase("y");
 
-                    Material m = new Material(id, titulo, tipo, true, exclusivoVip);
+                    Material m = new Material(id, titulo, tipo, true);
+
                     biblioteca.adicionarMaterial(m);
                     System.out.println("Material cadastrado!");
                 }
