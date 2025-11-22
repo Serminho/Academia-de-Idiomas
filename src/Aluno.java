@@ -23,7 +23,6 @@ public class Aluno extends Pessoa {
         this.vip = vip;
         this.pagamentos = new ArrayList<>();
         this.cursosConcluidos = new ArrayList<>();
-        this.progressosAtivos = new ArrayList<>();
     }
 
     public Aluno(String nome) {
@@ -39,7 +38,7 @@ public class Aluno extends Pessoa {
         return id;
     }
     public boolean isVip() {
-        return vip;
+        return this.vip;
     }
     public List<Pagamento> getPagamentos() {
         return pagamentos;
