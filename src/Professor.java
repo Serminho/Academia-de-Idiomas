@@ -9,4 +9,13 @@ public class Professor extends Pessoa {
     public String getEspecialidade() {
         return especialidade;
     }
+    private String especialidade;
+
+    public Professor(String especialidade) {
+        this.especialidade = especialidade;
+    }
+
+    public String getEspecialidade() {
+        return especialidade;
+    }
 }
