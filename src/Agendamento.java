@@ -23,8 +23,20 @@ public class Agendamento {
     public String getId() {
         return id;
     }
+    public Aluno getAluno() {
+        return aluno;
+    }
+    public Curso getCurso() {
+        return curso;
+    }
+    public Professor getProfessor() {
+        return professor;
+    }
     public LocalDateTime getDataHora() {
         return dataHora;
+    }
+    public String getStatus() {
+        return status;
     }
     public double getValor() {
         return valor;
@@ -32,5 +44,17 @@ public class Agendamento {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s | Aluno: %s | Curso: %s | Prof: %s | DataHora: %s | Status: %s | Valor: %.2f",
+                id,
+                aluno != null ? aluno.getNome() : "N/A",
+                curso != null ? curso.getNome() : "N/A",
+                professor != null ? professor.getNome() : "N/A",
+                dataHora != null ? dataHora.toString() : "N/A",
+                status,
+                valor);
     }
 }
