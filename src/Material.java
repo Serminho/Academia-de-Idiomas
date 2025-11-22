@@ -3,13 +3,18 @@ public class Material {
     private String titulo;
     private String tipo;
     private boolean disponivel = true;
+    private boolean exclusivoVip = false;
 
     public Material(String id, String titulo, String tipo, boolean disponivel) {
-        super();
         this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;
         this.disponivel = disponivel;
+    }
+
+    public Material(String id, String titulo, String tipo, boolean disponivel, boolean exclusivoVip) {
+        this(id, titulo, tipo, disponivel);
+        this.exclusivoVip = exclusivoVip;
     }
 
     public String getId() {
@@ -32,7 +37,18 @@ public class Material {
         this.disponivel = d;
     }
 
+    public boolean isExclusivoVip() {
+        return this.exclusivoVip;
+    }
+
+    public void setExclusivoVip(boolean exclusivoVip) {
+        this.exclusivoVip = exclusivoVip;
+    }
+
+    @Override
     public String toString() {
-        return "| " + this.titulo + " | ID: " + this.id + (disponivel ? "| (Disponível) |" : "| (Indisponível) |");
+        String s = "| " + this.titulo + " | ID: " + this.id + (disponivel ? " | (Disponível) |" : " | (Indisponível) |");
+        if (exclusivoVip) s += " [VIP]";
+        return s;
     }
 }

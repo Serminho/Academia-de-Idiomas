@@ -21,9 +21,22 @@ public class Emprestimo {
         return material;
     }
 
+    public LocalDate getDataEmprestimo() {
+        return dataEmprestimo;
+    }
+
+    public LocalDate getDataDevolucao() {
+        return dataDevolucao;
+    }
+
+    public boolean isAtivo() {
+        return dataDevolucao == null;
+    }
+
     public void devolver() {
+        if (!isAtivo()) return;
         this.dataDevolucao = LocalDate.now();
-        material.setDisponivel(true);
+        if (material != null) material.setDisponivel(true);
     }
 
     @Override
