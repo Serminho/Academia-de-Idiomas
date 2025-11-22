@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aluno extends Pessoa {
+    private String id;
     private boolean vip;
     private List<Pagamento> pagamentos;
     private List<CursoConcluido> cursosConcluidos;
@@ -23,6 +24,7 @@ public class Aluno extends Pessoa {
     // Construtor alternativo (sem e-mail e vip)
     public Aluno(String nome) {
         super(nome);
+        this.id = "Aluno" + System.currentTimeMillis();
         this.vip = false;
         this.pagamentos = new ArrayList<>();
         this.cursosConcluidos = new ArrayList<>();
