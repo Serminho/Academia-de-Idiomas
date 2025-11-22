@@ -3,6 +3,7 @@ public abstract class Pessoa {
     protected String email;
 
     public Pessoa(String nome, String email) {
+        super();
         this.nome = nome;
         this.email = email;
     }
@@ -14,9 +15,10 @@ public abstract class Pessoa {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
+    
     public String getEmail() {
-        return email;
+        return this.email;
     }
 }

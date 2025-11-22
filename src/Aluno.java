@@ -18,7 +18,7 @@ public class Aluno extends Pessoa {
         this.vip = vip;
         this.pagamentos = new ArrayList<>();
         this.cursosConcluidos = new ArrayList<>();
-}
+    }
 
     // Construtor alternativo (sem e-mail e vip)
     public Aluno(String nome) {
@@ -29,7 +29,7 @@ public class Aluno extends Pessoa {
     }
 
     public boolean isVip() {
-        return vip;
+        return this.vip;
     }
 
     public void registrarPagamento(Pagamento pagamento) {
@@ -58,5 +58,9 @@ public class Aluno extends Pessoa {
         if (pontos >= 100) return "Ouro";
         if (pontos >= 50) return "Prata";
         return "Bronze";
+    }
+
+    public String toString() {
+        return "| Aluno: " + this.nome + " | Email: " + this.email + " | VIP: " + (this.vip ? "Sim" : "Não") + "| ";
     }
 }
