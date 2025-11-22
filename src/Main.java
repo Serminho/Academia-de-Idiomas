@@ -1,58 +1,107 @@
-import java.time.LocalDate;
+import java.util.Scanner;
 
-public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Biblioteca biblioteca = new Biblioteca();
+        int opcao = 0;
 
-        // Criando níveis
-        Nivel iniciante = new Nivel("Iniciante");
-        Nivel avancado = new Nivel("Avançado");
+        do {
+            System.out.println("\n=== MENU DA BIBLIOTECA ===");
+            System.out.println("1 - Cadastrar Material");
+            System.out.println("2 - Cadastrar Aluno");
+            System.out.println("3 - Listar Aluno");
+            System.out.println("4 - Listar Materiais");
+            System.out.println("5 - Emprestar Material");
+            System.out.println("6 - Devolver Material");
+            System.out.println("7 - Ver Histórico");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha: ");
+            opcao = sc.nextInt();
+            sc.nextLine();
 
-        // Criando cursos
-        Curso cursoJava = new Curso("Java");
-        Curso cursoPython = new Curso("Python");
+            switch (opcao) {
 
-        // Criando alunos
-        Aluno aluno1 = new Aluno("Samuel", "samuel@email.com", true);
-        Aluno aluno2 = new Aluno("Marina");
-        Aluno aluno3 = new Aluno("Carlos", "carlos@email.com", false);
+                case 1:
+                    System.out.print("Inserir ID do material: ");
+                    String id = sc.nextLine();
+                    System.out.print("Inserir Título: ");
+                    String titulo = sc.nextLine();
+                    System.out.print("Inserir Tipo : ");
+                    String tipo = sc.nextLine();
 
-        // Criar professor
-        Professor professor = new Professor("Roberto", "roberto@escola.com");
+                    Material m = new Material(id, titulo, tipo, true);
+                    biblioteca.adicionarMaterial(m);
+                    System.out.println("Material cadastrado!");
+                    break;
 
-        // Criar turma (limite 2)
-        Horario horario = new Horario("Segunda", "14:00");
-        Turma turma = new Turma("T01", cursoJava, horario, professor, 2);
+                case 2:
+                    System.out.print("Inserir Nome: ");
+                    String nome = sc.nextLine();
+                    System.out.print("Inserir Email: ");
+                    String email = sc.nextLine();
+                    System.out.print("É VIP? (true/false): ");
+                    boolean vip = sc.nextBoolean();
+                    sc.nextLine();
+                    biblioteca.cadastrarAluno(nome, email, vip);
+                    break;
 
-        // Registrar pagamentos
-        aluno1.registrarPagamento(new Pagamento(300.0, LocalDate.now()));
-        aluno2.registrarPagamento(new Pagamento(250.0, LocalDate.now()));
+                case 3:
+                    biblioteca.listarAlunos();
+                    break;
 
-        // Concluir cursos
-        aluno1.concluirCurso(cursoJava, iniciante, 9.2);
-        aluno1.concluirCurso(cursoPython, avancado, 8.5);
-        aluno2.concluirCurso(cursoJava, iniciante, 7.8);
+                case 4:
+                    biblioteca.listarMateriaisDisponiveis();
+                    break;
 
-        // Teste da geração de relatório
-        System.out.println("===== RELATÓRIO DO ALUNO 1 =====");
-        System.out.println(FormatadorHistorico.gerarRelatorio(aluno1));
+                case 5:
+                    System.out.println("\n=== EMPRESTAR MATERIAL ===");
 
-        System.out.println("===== RELATÓRIO DO ALUNO 2 =====");
-        System.out.println(FormatadorHistorico.gerarRelatorio(aluno2));
+                    biblioteca.listarAlunos();
+                    System.out.print("Digite o nome do aluno: ");
+                    String nomeAluno = sc.nextLine();
 
-        // Testes da turma
-        System.out.println("\n===== TESTE DA TURMA =====");
-        turma.adicionarAluno(aluno1); // ok
-        turma.adicionarAluno(aluno2); // ok (turma cheia)
-        turma.adicionarAluno(aluno3); // não vip → recusado
+                    Aluno alunoEscolhido = biblioteca.buscarAlunoPorNome(nomeAluno);
 
-        // adicionando VIP para testar substituição
-        Aluno alunoVipExtra = new Aluno("Leonardo", "leo@email.com", true);
+                    biblioteca.listarMateriaisDisponiveis();
+                    System.out.print("Digite o titulo do Material: ");
+                    String tituloMaterial = sc.nextLine();
 
-        turma.adicionarAluno(alunoVipExtra); // deve substituir aluno não vip
+                    Material materialEscolhido = biblioteca.buscarMaterialPorTitulo(tituloMaterial);
+                    biblioteca.emprestarMaterial(alunoEscolhido, materialEscolhido);
+                    break;
 
-        System.out.println("\nAlunos finais da turma:");
-        for (Aluno a : turma.getAlunos()) {
-            System.out.println("- " + a.getNome() + (a.isVip() ? " (VIP)" : ""));
-        }
+                case 6:
+
+                    System.out.println("\n=== DEVOLVENDO MATERIAL ===");
+                    System.out.print("Digite o nome do aluno: ");
+                    String nomeDevolver = sc.nextLine();
+
+                    Aluno alunoDevolver = biblioteca.buscarAlunoPorNome(nomeDevolver);
+
+                    if (alunoDevolver == null) {
+                        System.out.println("Aluno não encontrado!");
+                    } else {
+                        biblioteca.listarMateriaisDisponiveis();
+                        System.out.print("Escolha o material para ser devolvido: ");
+                        String tituloMaterialDevolver = sc.nextLine();
+
+                        Material materialDevolver = biblioteca.buscarMaterialPorTitulo(tituloMaterialDevolver);
+                        biblioteca.devolverLivro(alunoDevolver, materialDevolver);
+                    }
+                    break;
+
+                case 7:
+                    biblioteca.mostrarHistorico();
+                    break;
+
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while(opcao != 0);
+
+        sc.close();
     }
-}
