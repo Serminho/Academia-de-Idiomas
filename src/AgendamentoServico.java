@@ -10,6 +10,10 @@ public class AgendamentoServico {
         this.cursosDisponiveis = cursosDisponiveis != null ? cursosDisponiveis : new ArrayList<>();
     }
 
+    public AgendamentoServico() {
+        this.cursosDisponiveis = new ArrayList<>();
+    }
+
     public Agendamento criarAgendamento(Aluno aluno, Curso curso, Professor professor, LocalDateTime dataHora) {
         if (aluno == null) throw new IllegalArgumentException("Aluno inválido");
         if (curso == null) throw new IllegalArgumentException("Curso inválido");

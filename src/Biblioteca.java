@@ -126,4 +126,10 @@ public class Biblioteca {
     public List<Emprestimo> getHistoricoEmprestimos() {
         return historico;
     }
+
+    public void adicionarAluno(Aluno a) {
+        if (a != null && !alunos.contains(a)) {
+            alunos.add(a);
+        }
+    }
 }

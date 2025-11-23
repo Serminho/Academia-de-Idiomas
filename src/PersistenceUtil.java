@@ -9,31 +9,20 @@ public class PersistenceUtil {
             if (p.getParent() != null) {
                 Files.createDirectories(p.getParent());
             }
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-                bw.write(content);
-            }
+            Files.writeString(p, content);
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar arquivo: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao salvar arquivo TXT: " + e.getMessage(), e);
         }
     }
 
     public static String loadText(String path) {
         try {
-            StringBuilder sb = new StringBuilder();
-
-            try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-                String linha;
-                while ((linha = br.readLine()) != null) {
-                    sb.append(linha).append("\n");
-                }
-            }
-
-            return sb.toString();
-
+            return Files.readString(Paths.get(path));
         } catch (FileNotFoundException e) {
-            return null;
+            return "";
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao carregar arquivo: " + e.getMessage(), e);
+            System.err.println("Aviso: arquivo não encontrado ou inválido: " + path);
+            return "";
         }
     }
 }
