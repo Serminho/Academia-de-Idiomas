@@ -134,9 +134,9 @@ Um relatório final acompanha o projeto e inclui:
 
 ## 👤 Grupo
 
-**Samuel Rodrigues**
-**Danilo Campos**
-**João Paulo**
+**Samuel Rodrigues |**
+**Danilo Campos |**
+**João Paulo |**
 **Absalão Neto**
 
 ---
