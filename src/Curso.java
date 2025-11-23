@@ -1,52 +1,53 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Curso {
+    private String id;
     private String nome;
     private Professor professor;
     private String idioma;
-    private List<String> niveis;
+    private List<Level> niveis;
     private double preco;
 
-    public Curso(String nome) {
-        this.nome = nome;
-        this.professor = null;
-        this.idioma = "Geral";
-        this.niveis = new ArrayList<>();
-        this.niveis.add("Básico");
-        this.preco = 1000.0;
-    }
-
-    public Curso(String nome, Professor professor, String idioma, String nivel, double preco) {
-        this.nome = nome;
+    public Curso(String nome, Professor professor, String idioma, List<Level> niveis, double preco) {
+        this.id = "C" + System.currentTimeMillis();
+        this.nome = nome != null ? nome : "Curso";
         this.professor = professor;
         this.idioma = idioma != null ? idioma : "Geral";
-        this.niveis = new ArrayList<>();
-        if (nivel != null) this.niveis.add(nivel);
-        this.preco = preco;
+        this.niveis = (niveis != null && !niveis.isEmpty()) ? new ArrayList<>(niveis) : Arrays.asList(Level.BASICO);
+        this.preco = preco >= 0.0 ? preco : 0.0;
+    }
+
+    public Curso(String nome) {
+        this(nome, null, "Geral", Arrays.asList(Level.BASICO, Level.INTERMEDIARIO, Level.AVANCADO), 1000.0);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getNome() {
         return nome;
     }
+
     public Professor getProfessor() {
         return professor;
     }
+
     public String getIdioma() {
         return idioma;
     }
-    public String getNivel() {
-        return niveis.isEmpty() ? "" : niveis.get(0);
+
+    public List<Level> getNiveis() {
+        return Collections.unmodifiableList(niveis);
     }
-    public List<String> getNiveis() {
-        return new ArrayList<>(niveis);
-    }
+
     public double getPreco() {
         return preco;
     }
 
     @Override
     public String toString() {
-        return nome + " - " + idioma + " (" + getNivel() + ")" + (professor != null ? " - Prof. " + professor.getNome() : "") + " - R$ " + preco;
+        String lvl = niveis.isEmpty() ? "" : niveis.get(0).toString();
+        return nome + " - " + idioma + " (" + lvl + ")" + (professor != null ? " - Prof. " + professor.getNome() : "") + " - R$ " + preco;
     }
 }

@@ -13,4 +13,9 @@ public class Horario {
     public String getHora() {
         return hora;
     }
+
+    @Override
+    public String toString() {
+        return diaSemana + " " + hora;
+    }
 }

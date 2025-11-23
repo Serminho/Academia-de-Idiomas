@@ -3,15 +3,22 @@ public class Professor extends Pessoa {
 
     public Professor(String nome, String email, String especialidade) {
         super(nome, email);
-        this.especialidade = especialidade;
+        this.especialidade = especialidade != null ? especialidade : "Geral";
     }
 
     public Professor(String nome, String email) {
-        super(nome, email);
-        this.especialidade = "Geral";
+        this(nome, email, "Geral");
     }
 
     public String getEspecialidade() {
         return especialidade;
+    }
+    public void setEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " (" + especialidade + ") - " + email;
     }
 }

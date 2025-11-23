@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Turma {
     private String codigo;
@@ -7,7 +6,6 @@ public class Turma {
     private Horario horario;
     private Professor professor;
     private int limiteAlunos;
-
     private List<Aluno> alunos;
 
     public Turma(String codigo, Curso curso, Horario horario, Professor professor, int limiteAlunos) {
@@ -20,17 +18,16 @@ public class Turma {
     }
 
     public boolean adicionarAluno(Aluno aluno) {
+        if (aluno == null) return false;
         if (alunos.contains(aluno)) {
             System.out.println("O aluno " + aluno.getNome() + " já está na turma.");
             return false;
         }
-
         if (alunos.size() < limiteAlunos) {
             alunos.add(aluno);
             System.out.println("Aluno " + aluno.getNome() + " adicionado a turma " + codigo);
             return true;
         }
-
         if (aluno.isVip()) {
             for (int i = 0; i < alunos.size(); i++) {
                 if (!alunos.get(i).isVip()) {
@@ -43,7 +40,6 @@ public class Turma {
                 }
             }
         }
-
         System.out.println("Não foi possível adicionar o aluno " + aluno.getNome() +
                 " à turma " + codigo + ": limite atingido.");
         return false;
@@ -63,7 +59,7 @@ public class Turma {
     }
 
     public List<Aluno> getAlunos() {
-        return alunos;
+        return Collections.unmodifiableList(alunos);
     }
 
     public int getQuantidadeAlunos() {
@@ -72,5 +68,13 @@ public class Turma {
 
     public String getCodigo() {
         return codigo;
+    }
+
+    @Override
+    public String toString() {
+        return "Turma " + codigo + " | Curso: " + (curso != null ? curso.getNome() : "N/A") +
+                " | Prof: " + (professor != null ? professor.getNome() : "N/A") +
+                " | Horário: " + (horario != null ? horario.getDiaSemana() + " " + horario.getHora() : "N/A") +
+                " | Alunos: " + alunos.size() + "/" + limiteAlunos;
     }
 }

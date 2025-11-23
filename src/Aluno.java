@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Aluno extends Pessoa {
     private String id;
@@ -23,14 +22,6 @@ public class Aluno extends Pessoa {
         this.vip = vip;
         this.pagamentos = new ArrayList<>();
         this.cursosConcluidos = new ArrayList<>();
-    }
-
-    public Aluno(String nome) {
-        super(nome);
-        this.id = "AL" + System.currentTimeMillis();
-        this.vip = false;
-        this.pagamentos = new ArrayList<>();
-        this.cursosConcluidos = new ArrayList<>();
         this.progressosAtivos = new ArrayList<>();
     }
 
@@ -38,23 +29,24 @@ public class Aluno extends Pessoa {
         return id;
     }
     public boolean isVip() {
-        return this.vip;
+        return vip;
     }
     public List<Pagamento> getPagamentos() {
-        return pagamentos;
+        return Collections.unmodifiableList(pagamentos);
     }
     public List<CursoConcluido> getCursosConcluidos() {
-        return cursosConcluidos;
+        return Collections.unmodifiableList(cursosConcluidos);
     }
     public List<Progresso> getProgressosAtivos() {
-        return progressosAtivos;
+        return Collections.unmodifiableList(progressosAtivos);
     }
 
     public void registrarPagamento(Pagamento p) {
         if (p != null) pagamentos.add(p);
     }
 
-    public void concluirCurso(Curso curso, Nivel nivel, double nota) {
+    public void concluirCurso(Curso curso, Level nivel, double nota) {
+        if (curso == null || nivel == null) return;
         cursosConcluidos.add(new CursoConcluido(curso, nivel, nota, java.time.LocalDate.now()));
     }
 
@@ -77,5 +69,4 @@ public class Aluno extends Pessoa {
     public String toString() {
         return "| Aluno: " + this.nome + " | Email: " + this.email + " | VIP: " + (this.vip ? "Sim" : "Não") + "| ";
     }
-
 }

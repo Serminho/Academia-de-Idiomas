@@ -5,54 +5,46 @@ public class Material {
     private boolean disponivel = true;
     private boolean exclusivoVip = false;
 
-    public Material(String titulo, String id, String tipo, boolean exclusivoVip, boolean disponivel) {
+    // Ordem padronizada: id, titulo, tipo, exclusivoVip, disponivel
+    public Material(String id, String titulo, String tipo, boolean exclusivoVip, boolean disponivel) {
         this.id = id;
         this.titulo = titulo;
-        this.tipo = tipo;
+        this.tipo = tipo != null ? tipo : "Tipo Genérico";
         this.disponivel = disponivel;
         this.exclusivoVip = exclusivoVip;
     }
 
-    public Material(String titulo, String id, boolean exclusivoVip, boolean disponivel) {
-        this.id = id;
-        this.titulo = titulo;
-        this.exclusivoVip = exclusivoVip;
-        this.tipo = "Tipo Genérico";
-        this.disponivel = disponivel;
+    public Material(String id, String titulo, boolean exclusivoVip, boolean disponivel) {
+        this(id, titulo, "Tipo Genérico", exclusivoVip, disponivel);
     }
 
-    public Material(String titulo, boolean exclusivoVip, boolean disponivel) {
-        this.titulo = titulo;
-        this.id = null;
-        this.tipo = "Tipo Genérico";
-        this.disponivel = disponivel;
-        this.exclusivoVip = exclusivoVip;
+    public Material(String titulo, boolean exclusivoVip) {
+        this(java.util.UUID.randomUUID().toString(), titulo, "Tipo Genérico", exclusivoVip, true);
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public String getTitulo() {
-        return this.titulo;
+        return titulo;
     }
 
     public String getTipo() {
-        return this.tipo;
+        return tipo;
     }
 
     public boolean isDisponivel() {
-        return this.disponivel;
+        return disponivel;
     }
 
-    public void setDisponivel(boolean d) {
-        this.disponivel = d;
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
     }
 
     public boolean isExclusivoVip() {
-        return this.exclusivoVip;
+        return exclusivoVip;
     }
-
     public void setExclusivoVip(boolean exclusivoVip) {
         this.exclusivoVip = exclusivoVip;
     }

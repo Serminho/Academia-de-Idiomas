@@ -2,22 +2,22 @@ import java.time.LocalDate;
 
 public class CursoConcluido {
     private Curso curso;
-    private Nivel nivel;
+    private Level nivel;
     private double nota;
     private LocalDate dataConclusao;
 
-    public CursoConcluido(Curso curso, Nivel nivel, double nota, LocalDate dataConclusao) {
+    public CursoConcluido(Curso curso, Level nivel, double nota, LocalDate dataConclusao) {
         this.curso = curso;
-        this.nivel = nivel;
+        this.nivel = nivel != null ? nivel : Level.BASICO;
         this.nota = nota;
-        this.dataConclusao = dataConclusao;
+        this.dataConclusao = dataConclusao != null ? dataConclusao : LocalDate.now();
     }
 
     public Curso getCurso() {
         return curso;
     }
 
-    public Nivel getNivel() {
+    public Level getNivel() {
         return nivel;
     }
 
@@ -27,5 +27,10 @@ public class CursoConcluido {
 
     public LocalDate getDataConclusao() {
         return dataConclusao;
+    }
+
+    @Override
+    public String toString() {
+        return curso.getNome() + " | " + nivel + " | Nota: " + nota + " | " + dataConclusao;
     }
 }

@@ -1,6 +1,9 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class FormatadorHistorico {
 
-    public static String gerarRelatorio(Aluno aluno) {
+    public static String gerarRelatorioTexto(Aluno aluno) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("Histórico do aluno ").append(aluno.getNome()).append("\n");
@@ -17,11 +20,24 @@ public class FormatadorHistorico {
 
         sb.append("\nPagamentos:\n");
         for (Pagamento p : aluno.getPagamentos()) {
-            sb.append(" - R$ ").append(p.getValor())
+            sb.append(" - R$ ").append(String.format("%.2f", p.getValor()))
               .append(" | Data: ").append(p.getData())
+              .append(" | ").append(p.getDescricao())
               .append("\n");
         }
 
         return sb.toString();
+    }
+
+    public static void gerarPdf(Aluno aluno, String caminhoArquivo) {
+        String texto = gerarRelatorioTexto(aluno);
+
+        try (FileWriter fw = new FileWriter(caminhoArquivo)) {
+            fw.write(texto);
+
+            System.out.println("Relatório salvo como arquivo de texto: " + caminhoArquivo);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar relatório: " + e.getMessage());
+        }
     }
 }

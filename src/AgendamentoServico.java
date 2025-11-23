@@ -23,13 +23,13 @@ public class AgendamentoServico {
             throw new IllegalArgumentException("Não é possível agendar para datas passadas");
         }
 
-        double valor = 10000.0; // Valor padrão
+        double valor = curso.getPreco();
         Agendamento agendamento = new Agendamento(aluno, curso, professor, dataHora, valor);
         agendamentos.put(agendamento.getId(), agendamento);
         return agendamento;
     }
 
-        public ResultadoCancelamento cancelarAgendamento(String agendamentoId) {
+    public ResultadoCancelamento cancelarAgendamento(String agendamentoId) {
         Agendamento agendamento = agendamentos.get(agendamentoId);
         if (agendamento == null) {
             throw new IllegalArgumentException("Agendamento não encontrado");
@@ -41,7 +41,7 @@ public class AgendamentoServico {
 
         if (horasRestantes < 24) {
             multa = agendamento.getValor() * 0.5;
-            Pagamento p = new Pagamento(multa, LocalDate.now());
+            Pagamento p = new Pagamento(multa, LocalDate.now(), "Multa cancelamento");
             agendamento.getAluno().registrarPagamento(p);
         }
 

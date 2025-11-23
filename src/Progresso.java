@@ -1,35 +1,51 @@
 public class Progresso {
     private Aluno aluno;
     private Curso curso;
-    private String nivelAtual;
-    private String nivelAnterior;
+    private Level nivelAtual;
+    private Level nivelAnterior;
     private int aulasConcluidas;
     private int totalAulas;
 
-    public Progresso(Aluno aluno, Curso curso, String nivelInicial) {
-        this.aluno = aluno;
-        this.curso = curso;
-        this.nivelAtual = nivelInicial;
-        this.nivelAnterior = nivelInicial;
-        this.aulasConcluidas = 0;
-        this.totalAulas = 20; // Padrão
+    public Progresso(Aluno aluno, Curso curso, Level nivelInicial) {
+        this(aluno, curso, nivelInicial, 20);
     }
 
-    public Progresso(Aluno aluno, Curso curso, String nivelInicial, int totalAulas) {
+    public Progresso(Aluno aluno, Curso curso, Level nivelInicial, int totalAulas) {
         this.aluno = aluno;
         this.curso = curso;
-        this.nivelAtual = nivelInicial;
-        this.nivelAnterior = nivelInicial;
+        this.nivelAtual = nivelInicial != null ? nivelInicial : Level.BASICO;
+        this.nivelAnterior = nivelAtual;
         this.aulasConcluidas = 0;
-        this.totalAulas = totalAulas;
+        this.totalAulas = Math.max(1, totalAulas);
     }
 
-    public Aluno getAluno() { return aluno; }
-    public Curso getCurso() { return curso; }
-    public String getNivelAtual() { return nivelAtual; }
-    public String getNivelAnterior() { return nivelAnterior; }
-    public int getAulasConcluidas() { return aulasConcluidas; }
-    public int getTotalAulas() { return totalAulas; }
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public Curso getCurso() {
+        return courseOrNull();
+    }
+    
+    private Curso courseOrNull() {
+        return curso;
+    }
+
+    public Level getNivelAtual() {
+        return nivelAtual;
+    }
+    
+    public Level getNivelAnterior() {
+        return nivelAnterior;
+    }
+
+    public int getAulasConcluidas() {
+        return aulasConcluidas;
+    }
+
+    public int getTotalAulas() {
+        return totalAulas;
+    }
 
     public void concluirAula() {
         if (aulasConcluidas < totalAulas) aulasConcluidas++;
@@ -39,9 +55,9 @@ public class Progresso {
         if (aulasConcluidas >= totalAulas) {
             nivelAnterior = nivelAtual;
             switch (nivelAtual) {
-                case "Básico" -> nivelAtual = "Intermediário";
-                case "Intermediário" -> nivelAtual = "Avançado";
-                case "Avançado" -> nivelAtual = "Concluído";
+                case BASICO -> nivelAtual = Level.INTERMEDIARIO;
+                case INTERMEDIARIO -> nivelAtual = Level.AVANCADO;
+                case AVANCADO -> {/* permanece */}
             }
             aulasConcluidas = 0;
         }
@@ -52,7 +68,7 @@ public class Progresso {
     }
 
     public boolean isCursoConcluido() {
-        return "Concluído".equals(nivelAtual);
+        return nivelAtual == Level.AVANCADO && aulasConcluidas >= totalAulas;
     }
 
     public boolean podeAvancarNivel() {
@@ -66,8 +82,8 @@ public class Progresso {
     @Override
     public String toString() {
         return String.format("%s - %s (%s) - %d/%d aulas (%.1f%%)",
-                aluno.getNome(),
-                curso.getNome(),
+                aluno != null ? aluno.getNome() : "N/A",
+                curso != null ? curso.getNome() : "N/A",
                 nivelAtual,
                 aulasConcluidas,
                 totalAulas,

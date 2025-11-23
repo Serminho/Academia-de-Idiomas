@@ -1,9 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Biblioteca {
-
     private List<Material> materiais = new ArrayList<>();
     private List<Emprestimo> historico = new ArrayList<>();
     private List<Aluno> alunos = new ArrayList<>();
@@ -11,8 +8,7 @@ public class Biblioteca {
     public Biblioteca() {}
 
     public void adicionarMaterial(Material material) {
-        if (material == null)
-            return;
+        if (material == null) return;
         materiais.add(material);
     }
 
@@ -28,19 +24,14 @@ public class Biblioteca {
     }
 
     public boolean emprestarMaterial(Aluno aluno, Material material) {
-        if (aluno == null) {
-            System.out.println("Aluno inválido.");
-            return false;
-        }
-        if (material == null) {
-            System.out.println("Material inválido.");
+        if (aluno == null || material == null) {
+            System.out.println("Aluno ou material inválido.");
             return false;
         }
         if (!material.isDisponivel()) {
             System.out.println("Material indisponível!");
             return false;
         }
-        // restrição VIP
         if (material.isExclusivoVip() && !aluno.isVip()) {
             System.out.println("Material exclusivo para alunos VIP. Empréstimo negado para " + aluno.getNome());
             return false;
@@ -49,18 +40,13 @@ public class Biblioteca {
         material.setDisponivel(false);
         Emprestimo e = new Emprestimo(aluno, material);
         historico.add(e);
-
-        System.out.println(aluno.getNome() + " Emprestou: " + material.getTitulo());
+        System.out.println(aluno.getNome() + " emprestou: " + material.getTitulo());
         return true;
     }
 
     public boolean devolverLivro(Aluno aluno, Material material) {
-        if (aluno == null) {
-            System.out.println("Aluno inválido.");
-            return false;
-        }
-        if (material == null) {
-            System.out.println("Material inválido.");
+        if (aluno == null || material == null) {
+            System.out.println("Aluno ou material inválido.");
             return false;
         }
 
