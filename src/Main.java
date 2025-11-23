@@ -1,107 +1,91 @@
-import java.util.Scanner;
+import java.time.LocalDateTime;
 
+public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Biblioteca biblioteca = new Biblioteca();
-        int opcao = 0;
 
-        do {
-            System.out.println("\n=== MENU DA BIBLIOTECA ===");
-            System.out.println("1 - Cadastrar Material");
-            System.out.println("2 - Cadastrar Aluno");
-            System.out.println("3 - Listar Aluno");
-            System.out.println("4 - Listar Materiais");
-            System.out.println("5 - Emprestar Material");
-            System.out.println("6 - Devolver Material");
-            System.out.println("7 - Ver Histórico");
-            System.out.println("0 - Sair");
-            System.out.print("Escolha: ");
-            opcao = sc.nextInt();
-            sc.nextLine();
+        System.out.println("=== INICIANDO TESTES ===\n");
 
-            switch (opcao) {
+        Professor prof1 = new Professor("Marcos", "marcos@icev.edu", null);
+        Professor prof2 = new Professor("Juliana", "juliana@icev.edu");
 
-                case 1:
-                    System.out.print("Inserir ID do material: ");
-                    String id = sc.nextLine();
-                    System.out.print("Inserir Título: ");
-                    String titulo = sc.nextLine();
-                    System.out.print("Inserir Tipo : ");
-                    String tipo = sc.nextLine();
+        CadastroCursos cadastro = new CadastroCursos();
+        cadastro.adicionarCurso("Inglês Básico", prof1, "Inglês", "Básico", 1500);
+        cadastro.adicionarCurso("Espanhol Intermediário", prof2, "Espanhol", "Intermediário", 1800);
 
-                    Material m = new Material(id, titulo, tipo, true);
-                    biblioteca.adicionarMaterial(m);
-                    System.out.println("Material cadastrado!");
-                    break;
+        System.out.println("\n--- Cursos cadastrados ---");
+        cadastro.listarCursos();
 
-                case 2:
-                    System.out.print("Inserir Nome: ");
-                    String nome = sc.nextLine();
-                    System.out.print("Inserir Email: ");
-                    String email = sc.nextLine();
-                    System.out.print("É VIP? (true/false): ");
-                    boolean vip = sc.nextBoolean();
-                    sc.nextLine();
-                    biblioteca.cadastrarAluno(nome, email, vip);
-                    break;
+        Aluno alunoVip = new Aluno("Carlos VIP", "vip@teste.com", true);
+        Aluno alunoNormal = new Aluno("João", "joao@teste.com", false);
 
-                case 3:
-                    biblioteca.listarAlunos();
-                    break;
+        Biblioteca bib = new Biblioteca();
+        Material m1 = new Material("123456", "Java Avançado", "Computação", false, false);
+        Material m2 = new Material("654321","Python para VIPs", true, false);
 
-                case 4:
-                    biblioteca.listarMateriaisDisponiveis();
-                    break;
+        bib.adicionarMaterial(m1);
+        bib.adicionarMaterial(m2);
 
-                case 5:
-                    System.out.println("\n=== EMPRESTAR MATERIAL ===");
+        System.out.println("\n--- Materiais disponíveis ---");
+        bib.listarMateriaisDisponiveis();
 
-                    biblioteca.listarAlunos();
-                    System.out.print("Digite o nome do aluno: ");
-                    String nomeAluno = sc.nextLine();
+        System.out.println("\n--- Teste de empréstimo ---");
+        bib.emprestarMaterial(alunoNormal, m1); // deve funcionar
+        bib.emprestarMaterial(alunoNormal, m2); // deve negar (VIP)
+        bib.emprestarMaterial(alunoVip, m2);    // deve funcionar
 
-                    Aluno alunoEscolhido = biblioteca.buscarAlunoPorNome(nomeAluno);
+        System.out.println("\n--- Histórico após empréstimos ---");
+        bib.mostrarHistorico();
 
-                    biblioteca.listarMateriaisDisponiveis();
-                    System.out.print("Digite o titulo do Material: ");
-                    String tituloMaterial = sc.nextLine();
+        bib.devolverLivro(alunoVip, m2);
 
-                    Material materialEscolhido = biblioteca.buscarMaterialPorTitulo(tituloMaterial);
-                    biblioteca.emprestarMaterial(alunoEscolhido, materialEscolhido);
-                    break;
+        System.out.println("\n--- Histórico após devolução ---");
+        bib.mostrarHistorico();
 
-                case 6:
+        AgendamentoServico agServ = new AgendamentoServico(cadastro.getCursos());
 
-                    System.out.println("\n=== DEVOLVENDO MATERIAL ===");
-                    System.out.print("Digite o nome do aluno: ");
-                    String nomeDevolver = sc.nextLine();
+        LocalDateTime dataValida = LocalDateTime.now().plusDays(3);
+        while (!(dataValida.getDayOfWeek().getValue() == 1 ||
+                 dataValida.getDayOfWeek().getValue() == 3 ||
+                 dataValida.getDayOfWeek().getValue() == 5)) {
+            dataValida = dataValida.plusDays(1);
+        }
 
-                    Aluno alunoDevolver = biblioteca.buscarAlunoPorNome(nomeDevolver);
+        System.out.println("\n--- Criando agendamento VIP ---");
+        Agendamento ag = agServ.criarAgendamento(
+                alunoVip,
+                cadastro.getCursos().get(0),
+                prof1,
+                dataValida
+        );
+        System.out.println("Criado: " + ag);
 
-                    if (alunoDevolver == null) {
-                        System.out.println("Aluno não encontrado!");
-                    } else {
-                        biblioteca.listarMateriaisDisponiveis();
-                        System.out.print("Escolha o material para ser devolvido: ");
-                        String tituloMaterialDevolver = sc.nextLine();
+        System.out.println("\n--- Tentando criar agendamento para aluno comum ---");
+        try {
+            agServ.criarAgendamento(
+                alunoNormal,
+                cadastro.getCursos().get(0),
+                prof1,
+                dataValida.plusDays(1)
+            );
+        } catch (Exception e) {
+            System.out.println("Erro esperado: " + e.getMessage());
+        }
 
-                        Material materialDevolver = biblioteca.buscarMaterialPorTitulo(tituloMaterialDevolver);
-                        biblioteca.devolverLivro(alunoDevolver, materialDevolver);
-                    }
-                    break;
+        System.out.println("\n--- Tempo restante para o agendamento ---");
+        TempoRestante tr = agServ.calcularTempoRestante(ag.getId());
+        System.out.println("Dias: " + tr.getDias() + " | Horas: " + tr.getHoras());
 
-                case 7:
-                    biblioteca.mostrarHistorico();
-                    break;
+        System.out.println("\n--- Cancelando agendamento ---");
+        ResultadoCancelamento rc = agServ.cancelarAgendamento(ag.getId());
+        System.out.println("Cancelado. Multa: R$ " + rc.getMulta());
 
-                case 0:
-                    System.out.println("Saindo...");
-                    break;
+        System.out.println("\n--- Conclusão de curso ---");
+        alunoVip.concluirCurso(cadastro.getCursos().get(0), null, 9.5);
 
-                default:
-                    System.out.println("Opção inválida!");
-            }
-        } while(opcao != 0);
+        System.out.println("\n--- Histórico formatado ---");
+        String relatorio = FormatadorHistorico.gerarRelatorio(alunoVip);
+        System.out.println(relatorio);
 
-        sc.close();
+        System.out.println("\n=== FIM DOS TESTES ===");
     }
+}

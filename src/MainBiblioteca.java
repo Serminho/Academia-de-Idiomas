@@ -40,7 +40,7 @@ public class MainBiblioteca {
                     String resp = sc.nextLine().trim();
                     boolean exclusivoVip = resp.equalsIgnoreCase("s") || resp.equalsIgnoreCase("y");
 
-                    Material m = new Material(id, titulo, tipo, true);
+                    Material m = new Material(id, titulo, tipo, true, exclusivoVip);
 
                     biblioteca.adicionarMaterial(m);
                     System.out.println("Material cadastrado!");

@@ -5,15 +5,27 @@ public class Material {
     private boolean disponivel = true;
     private boolean exclusivoVip = false;
 
-    public Material(String id, String titulo, String tipo, boolean disponivel) {
+    public Material(String titulo, String id, String tipo, boolean exclusivoVip, boolean disponivel) {
         this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;
         this.disponivel = disponivel;
+        this.exclusivoVip = exclusivoVip;
     }
 
-    public Material(String id, String titulo, String tipo, boolean disponivel, boolean exclusivoVip) {
-        this(id, titulo, tipo, disponivel);
+    public Material(String titulo, String id, boolean exclusivoVip, boolean disponivel) {
+        this.id = id;
+        this.titulo = titulo;
+        this.exclusivoVip = exclusivoVip;
+        this.tipo = "Tipo Genérico";
+        this.disponivel = disponivel;
+    }
+
+    public Material(String titulo, boolean exclusivoVip, boolean disponivel) {
+        this.titulo = titulo;
+        this.id = null;
+        this.tipo = "Tipo Genérico";
+        this.disponivel = disponivel;
         this.exclusivoVip = exclusivoVip;
     }
 

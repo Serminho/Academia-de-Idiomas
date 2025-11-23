@@ -1,16 +1,16 @@
 public class Nivel {
-    private String descricao;
+    private int nivelAual;
 
-    public Nivel(String descricao) {
-        this.descricao = descricao;
+    public Nivel(int nivelAual) {
+        this.nivelAual = nivelAual;
     }
 
-    public String getDescricao() { 
-        return descricao; 
+    public int getDescricao() { 
+        return nivelAual; 
     }
 
     @Override
     public String toString() {
-        return descricao;
+        return String.valueOf(nivelAual);
     }
 }

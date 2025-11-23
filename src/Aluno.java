@@ -77,4 +77,5 @@ public class Aluno extends Pessoa {
     public String toString() {
         return "| Aluno: " + this.nome + " | Email: " + this.email + " | VIP: " + (this.vip ? "Sim" : "Não") + "| ";
     }
+
 }
